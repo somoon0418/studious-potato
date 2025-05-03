@@ -28,9 +28,9 @@ export function ProductCard({
 }: ProductCardProps) {
   return (
     <Link to={`/products/${id}`}>
-      <Card className="w-full flex flex-row item-center justify-between p-4 bg-transparent hover:bg-card/50">
-        <CardHeader className="flex-1 min-w-0">
-          <CardTitle className="text-2xl font-semibold leading-none tracking-tight truncate">
+      <Card className="w-full flex flex-row item-center justify-between p-4 bg-transparent hover:bg-card/50 overflow-hidden">
+        <CardHeader className="flex-1 overflow-hidden min-w-0">
+          <CardTitle className="text-2xl font-semibold leading-none tracking-tight truncate w-full min-w-0">
             {title}
           </CardTitle>
           <CardDescription className="text-muted-foreground line-clamp-2">
