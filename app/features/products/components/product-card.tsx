@@ -29,11 +29,11 @@ export function ProductCard({
   return (
     <Link to={`/products/${id}`}>
       <Card className="w-full flex flex-row item-center justify-between p-4 bg-transparent hover:bg-card/50">
-        <CardHeader className="flex-1">
-          <CardTitle className="text-2xl font-semibold leading-none tracking-tight">
+        <CardHeader className="flex-1 min-w-0">
+          <CardTitle className="text-2xl font-semibold leading-none tracking-tight truncate">
             {title}
           </CardTitle>
-          <CardDescription className="text-muted-foreground">
+          <CardDescription className="text-muted-foreground line-clamp-2">
             {description}
           </CardDescription>
           <div className="flex items-center gap-4 mt-2">
