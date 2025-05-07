@@ -102,7 +102,7 @@ export default [
         "features/products/pages/yearly-leaderboard-page.tsx"
       ),
     ]),
-    ...prefix("caregories", [
+    ...prefix("categories", [
       index("features/products/pages/categories-page.tsx"),
       route("/:category", "features/products/pages/categories-page.tsx"),
     ]),
