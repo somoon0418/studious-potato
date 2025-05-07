@@ -78,3 +78,42 @@ Here's a quick checklist for handling long text in responsive layouts using Tail
   </CardDescription>
 </CardHeader>
 ```
+
+---
+
+### 🗺️ Generating Page Files from routes.ts with Cursor AI
+
+I first define all the app routes inside `routes.ts` (open navigation.tsx).  
+Once the structure is ready, I let **Cursor AI** auto-generate the page files — super useful for fast scaffolding.
+
+---
+
+#### ✅ Example: `routes.ts`
+
+```ts
+export default [
+  index("common/pages/home-page.tsx"),
+  ...prefix("products", [
+    index("features/products/pages/products-page.tsx"),
+    ...prefix("leaderboards", [
+      index("features/products/pages/leaderboard-page.tsx"),
+      route(
+        "/yearly/:year",
+        "features/products/pages/yearly-leaderboard-page.tsx"
+      ),
+    ]),
+    ...prefix("caregories", [
+      index("features/products/pages/categories-page.tsx"),
+      route("/:category", "features/products/pages/categories-page.tsx"),
+    ]),
+    route("promote", "features/products/pages/promote-page.tsx"),
+  ]),
+] satisfies RouteConfig;
+```
+
+#### 💬 Prompt to CursorAI
+
+```txt
+Create all the files for the routes in the file.
+No fixing types and other files. Just create page files.
+```
