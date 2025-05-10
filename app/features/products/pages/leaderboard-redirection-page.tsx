@@ -5,7 +5,7 @@ import { DateTime } from "luxon";
 export const loader = ({ params }: Route.LoaderArgs) => {
   const { period } = params;
   let url: string;
-  const today = DateTime.now().setZone("Asia/Seoul");
+  const today = DateTime.now();
 
   if (period === "daily") {
     url = `/products/leaderboards/daily/${today.year}/${today.month}/${today.day}`;

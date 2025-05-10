@@ -1,9 +1,12 @@
 import type { MetaFunction } from "react-router";
 import type { Route } from "./+types/daily-leaderboard-page";
 import { DateTime } from "luxon";
-import { data, isRouteErrorResponse } from "react-router";
-import { z } from "zod";
-
+import { data, isRouteErrorResponse, Link } from "react-router";
+import { date, z } from "zod";
+import { Hero } from "~/common/components/hero";
+import { ProductCard } from "~/features/products/components/product-card";
+import { Button } from "~/common/components/ui/button";
+import ProductPagination from "~/common/components/product-pagination";
 const paramsSchema = z.object({
   year: z.coerce.number(),
   month: z.coerce.number(),
@@ -21,7 +24,7 @@ export const loader = ({ params }: Route.LoaderArgs) => {
       { status: 400 }
     );
   }
-  const date = DateTime.fromObject(parsedData).setZone("Asia/Seoul");
+  const date = DateTime.fromObject(parsedData);
   if (!date.isValid) {
     throw data(
       {
@@ -31,7 +34,7 @@ export const loader = ({ params }: Route.LoaderArgs) => {
       { status: 400 }
     );
   }
-  const today = DateTime.now().setZone("Asia/Seoul").startOf("day");
+  const today = DateTime.now().startOf("day");
   if (date > today) {
     throw data(
       {
@@ -42,26 +45,56 @@ export const loader = ({ params }: Route.LoaderArgs) => {
     );
   }
   return {
-    year: parsedData.year,
-    month: parsedData.month,
-    day: parsedData.day,
+    ...parsedData,
   };
-};
-export const meta: MetaFunction = () => {
-  return [
-    { title: "Daily Leaderboard | WeMake" },
-    { name: "description", content: "Top products of the day" },
-  ];
 };
 
 export default function DailyLeaderboardPage({
   loaderData,
 }: Route.ComponentProps) {
+  const urlDate = DateTime.fromObject(loaderData);
+  const previousDate = urlDate.minus({ day: 1 });
+  const nextDate = urlDate.plus({ day: 1 });
+  const isToday = urlDate.equals(DateTime.now().startOf("day"));
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-4xl font-bold mb-6">
-        Top Products of {loaderData.year} {loaderData.month} {loaderData.day}
-      </h1>
+    <div className="space-y-10">
+      <Hero
+        title={`The best products of ${urlDate.toLocaleString(
+          DateTime.DATE_MED
+        )}`}
+      />
+      <div className="flex items-center justify-center gap-2">
+        <Button asChild variant="secondary">
+          <Link
+            to={`/products/leaderboards/daily/${previousDate.year}/${previousDate.month}/${previousDate.day}`}
+          >
+            &larr; {previousDate.toLocaleString(DateTime.DATE_SHORT)}
+          </Link>
+        </Button>
+        {!isToday && (
+          <Button asChild variant="secondary">
+            <Link
+              to={`/products/leaderboards/daily/${nextDate.year}/${nextDate.month}/${nextDate.day}`}
+            >
+              {nextDate.toLocaleString(DateTime.DATE_SHORT)} &rarr;
+            </Link>
+          </Button>
+        )}
+      </div>
+      <div className="space-y-5 w-full max-w-screen-md mx-auto">
+        {Array.from({ length: 10 }).map((_, index) => (
+          <ProductCard
+            key={index}
+            id={`productId-${index}`}
+            title={`Product Name ${index}`}
+            description={`Product Description ${index}`}
+            commentCount={10}
+            viewCount={100}
+            upvoteCount={120}
+          />
+        ))}
+      </div>
+      <ProductPagination totalPages={10} />
     </div>
   );
 }
