@@ -53,8 +53,8 @@ export default function DailyLeaderboardPage({
   loaderData,
 }: Route.ComponentProps) {
   const urlDate = DateTime.fromObject(loaderData);
-  const previousDate = urlDate.minus({ day: 1 });
-  const nextDate = urlDate.plus({ day: 1 });
+  const previousDay = urlDate.minus({ day: 1 });
+  const nextDay = urlDate.plus({ day: 1 });
   const isToday = urlDate.equals(DateTime.now().startOf("day"));
   return (
     <div className="space-y-10">
@@ -66,17 +66,17 @@ export default function DailyLeaderboardPage({
       <div className="flex items-center justify-center gap-2">
         <Button asChild variant="secondary">
           <Link
-            to={`/products/leaderboards/daily/${previousDate.year}/${previousDate.month}/${previousDate.day}`}
+            to={`/products/leaderboards/daily/${previousDay.year}/${previousDay.month}/${previousDay.day}`}
           >
-            &larr; {previousDate.toLocaleString(DateTime.DATE_SHORT)}
+            &larr; {previousDay.toLocaleString(DateTime.DATE_SHORT)}
           </Link>
         </Button>
         {!isToday && (
           <Button asChild variant="secondary">
             <Link
-              to={`/products/leaderboards/daily/${nextDate.year}/${nextDate.month}/${nextDate.day}`}
+              to={`/products/leaderboards/daily/${nextDay.year}/${nextDay.month}/${nextDay.day}`}
             >
-              {nextDate.toLocaleString(DateTime.DATE_SHORT)} &rarr;
+              {nextDay.toLocaleString(DateTime.DATE_SHORT)} &rarr;
             </Link>
           </Button>
         )}
@@ -86,11 +86,11 @@ export default function DailyLeaderboardPage({
           <ProductCard
             key={index}
             id={`productId-${index}`}
-            title={`Product Name ${index}`}
+            name={`Product Name ${index}`}
             description={`Product Description ${index}`}
-            commentCount={10}
-            viewCount={100}
-            upvoteCount={120}
+            commentsCount={10}
+            viewsCount={100}
+            votesCount={120}
           />
         ))}
       </div>
