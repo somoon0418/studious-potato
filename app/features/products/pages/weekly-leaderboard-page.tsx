@@ -10,6 +10,7 @@ import ProductPagination from "~/common/components/product-pagination";
 const paramsSchema = z.object({
   year: z.coerce.number(),
   week: z.coerce.number(),
+  page: z.coerce.number().optional().default(1),
 });
 
 export const loader = ({ params }: Route.LoaderArgs) => {

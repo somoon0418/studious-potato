@@ -11,6 +11,7 @@ const paramsSchema = z.object({
   year: z.coerce.number(),
   month: z.coerce.number(),
   day: z.coerce.number(),
+  page: z.coerce.number().optional().default(1),
 });
 
 export const loader = ({ params }: Route.LoaderArgs) => {
