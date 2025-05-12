@@ -49,6 +49,23 @@ export const loader = ({ params }: Route.LoaderArgs) => {
   };
 };
 
+export const meta: Route.MetaFunction = ({ params }) => {
+  const date = DateTime.fromObject({
+    year: Number(params.year),
+    month: Number(params.month),
+    day: Number(params.day),
+  })
+    .setZone("Asia/Seoul")
+    .setLocale("ko");
+  return [
+    {
+      title: `The best products of ${date.toLocaleString(
+        DateTime.DATE_MED
+      )} | wemake`,
+    },
+  ];
+};
+
 export default function DailyLeaderboardPage({
   loaderData,
 }: Route.ComponentProps) {

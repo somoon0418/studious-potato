@@ -53,6 +53,24 @@ export const loader = ({ params }: Route.LoaderArgs) => {
   };
 };
 
+export const meta: Route.MetaFunction = ({ params }) => {
+  const date = DateTime.fromObject({
+    weekYear: Number(params.year),
+    weekNumber: Number(params.week),
+  })
+    .setZone("Asia/Seoul")
+    .setLocale("ko");
+  return [
+    {
+      title: `Best of week ${date
+        .startOf("week")
+        .toLocaleString(DateTime.DATE_SHORT)} - ${date
+        .endOf("week")
+        .toLocaleString(DateTime.DATE_SHORT)} | wemake`,
+    },
+  ];
+};
+
 export default function WeeklyLeaderboardPage({
   loaderData,
 }: Route.ComponentProps) {

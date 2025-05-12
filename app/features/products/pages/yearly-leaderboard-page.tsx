@@ -51,6 +51,21 @@ export const loader = ({ params }: Route.LoaderArgs) => {
   };
 };
 
+export const meta: Route.MetaFunction = ({ params }) => {
+  const date = DateTime.fromObject({
+    year: Number(params.year),
+  })
+    .setZone("Asia/Seoul")
+    .setLocale("ko");
+  return [
+    {
+      title: `Best of ${date.toLocaleString({
+        year: "numeric",
+      })} | wemake`,
+    },
+  ];
+};
+
 export default function YearlyLeaderboardPage({
   loaderData,
 }: Route.ComponentProps) {
