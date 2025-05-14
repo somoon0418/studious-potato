@@ -1,7 +1,7 @@
 import { z } from "zod";
 import type { Route } from "./+types/search-page";
 import { ProductCard } from "~/features/products/components/product-card";
-import { Form, useParams } from "react-router";
+import { Form } from "react-router";
 import { data } from "react-router";
 import { Hero } from "~/common/components/hero";
 import ProductPagination from "~/common/components/product-pagination";
@@ -41,7 +41,10 @@ export const loader = ({ request }: Route.LoaderArgs) => {
 export default function SearchPage() {
   return (
     <div className="space-y-10">
-      <Hero title="Search Products by title or description" />
+      <Hero
+        title="Search"
+        subtitle="Search for products by title or description"
+      />
       <Form
         method="get"
         className="flex justify-center max-w-screen-sm items-center mx-auto gap-2"

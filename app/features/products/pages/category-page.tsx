@@ -1,44 +1,50 @@
-import type { MetaFunction } from "react-router";
-import { ProductCard } from "~/features/products/components/product-card";
+import { Form } from "react-router";
+import { ProductCard } from "../components/product-card";
+import type { Route } from "./+types/category-page";
+import { Button } from "~/common/components/ui/button";
+import { Hero } from "~/common/components/hero";
+import { Input } from "~/common/components/ui/input";
+import ProductPagination from "~/common/components/product-pagination";
 
-export const meta: MetaFunction = () => {
+export const meta: Route.MetaFunction = ({ params }: Route.MetaArgs) => {
   return [
-    { title: "Category | WeMake" },
-    { name: "description", content: "Browse products in this category" },
+    { title: `Developer Tools | WeMake` },
+    { name: "description", content: "Browse Developer Tools Products" },
   ];
 };
 
 export default function CategoryPage() {
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
-        <div>
-          <h1 className="text-4xl font-bold">Productivity Tools</h1>
-          <p className="text-lg text-muted-foreground mt-2">
-            Discover the best productivity tools to boost your workflow
-          </p>
-        </div>
-        <div className="flex gap-4">
-          <select className="px-3 py-2 border rounded-md">
-            <option>Most Popular</option>
-            <option>Newest</option>
-            <option>Most Upvoted</option>
-          </select>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="space-y-10">
+      <Hero
+        title="Developer Tools"
+        subtitle="Tools for developers to build products faster"
+      />
+      <Form
+        method="get"
+        className="flex justify-center max-w-screen-sm items-center mx-auto gap-2"
+      >
+        <Input
+          name="query"
+          placeholder="Search for products"
+          className="text-lg"
+        />
+        <Button type="submit">Search</Button>
+      </Form>
+      <div className="space-y-5 w-full max-w-screen-md mx-auto">
         {Array.from({ length: 12 }).map((_, index) => (
           <ProductCard
             key={index}
             id={`productId-${index}`}
-            title={`Product Name ${index}`}
-            description={`Product Description ${index}`}
-            commentCount={10}
-            viewCount={100}
-            upvoteCount={120}
+            name="Product Name"
+            description="Product Description"
+            commentsCount={10}
+            viewsCount={100}
+            votesCount={120}
           />
         ))}
       </div>
+      <ProductPagination totalPages={10} />
     </div>
   );
 }
