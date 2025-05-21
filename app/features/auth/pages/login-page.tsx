@@ -2,6 +2,7 @@ import { Button } from "~/common/components/ui/button";
 import type { Route } from "./+types/login-page";
 import { Form, Link } from "react-router";
 import InputPair from "~/common/components/input-pair";
+import AuthButtons from "../components/auth-buttons";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Login | wemake" }];
@@ -14,7 +15,7 @@ export default function LoginPage() {
         <Link to="/auth/join">Create an account</Link>
       </Button>
       <div className="flex flex-col items-center justify-center gap-10 w-full max-w-md">
-        <h1 className="text-2xl font-semibold">Login to your account</h1>
+        <h1 className="text-2xl font-semibold">Log in to your account</h1>
         <Form className="w-full space-y-4">
           <InputPair
             id="email"
@@ -38,6 +39,7 @@ export default function LoginPage() {
             Log in
           </Button>
         </Form>
+        <AuthButtons />
       </div>
     </div>
   );
