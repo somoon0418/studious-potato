@@ -53,14 +53,18 @@ export default function HomePage() {
             <Link to="/community">Explore all discussions &rarr;</Link>
           </Button>
         </div>
-        <PostCard
-          id="postId"
-          title="Discussion Title"
-          author="Blueberry"
-          authorAvatarUrl="https://github.com/apple.png"
-          category="Productivity"
-          timeAgo="12 yours ago"
-        />
+        {Array.from({ length: 11 }).map((_, index) => (
+          <PostCard
+            key={`postId-${index}`}
+            id={`postId-${index}`}
+            title="What is the best productivity tool?"
+            author="Nico"
+            authorAvatarUrl="https://github.com/apple.png"
+            category="Productivity"
+            postedAt="12 hours ago"
+            expanded
+          />
+        ))}
       </div>
       <div className="grid grid-cols-3 gap-4">
         <div>
