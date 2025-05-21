@@ -224,33 +224,38 @@ export default function Navigation({
             </Link>
           </Button>
           <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Avatar>
-                <AvatarImage src="https://github.com/somoon0418.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
+            <DropdownMenuTrigger className="cursor-pointer" asChild>
+              <button className="cursor-pointer rounded-full overflow-hidden">
+                <Avatar>
+                  <AvatarImage
+                    className="object-cover"
+                    src="https://github.com/somoon0418.png"
+                  />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+              </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel className="flex flex-col">
+              <DropdownMenuLabel>
                 <span className="font-medium">LoveEverything</span>
                 <span className="text-sm text-muted-foreground">@tomato</span>
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                  <Link to="/my/dashboard" className="cursor-pointer">
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <Link to="/my/dashboard">
                     <BarChart3Icon className="size-4 mr-1" />
                     Dashboard
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/my/profile" className="cursor-pointer">
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <Link to="/my/profile">
                     <UserIcon className="size-4 mr-1" />
                     Profile
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem asChild>
-                  <Link to="/my/settings" className="cursor-pointer">
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <Link to="/my/settings">
                     <SettingsIcon className="size-4 mr-1" />
                     Settings
                   </Link>
