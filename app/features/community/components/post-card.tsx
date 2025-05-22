@@ -40,12 +40,12 @@ export function PostCard({
           expanded ? "flex flex-row items-center justify-between" : ""
         )}
       >
-        <CardHeader className="flex flex-row items-center gap-2">
+        <CardHeader className="flex w-full items-center gap-2">
           <Avatar className="size-14">
             <AvatarFallback>{author[0]}</AvatarFallback>
             {authorAvatarUrl && <AvatarImage src={authorAvatarUrl} />}
           </Avatar>
-          <div className="space-y-2">
+          <div className="space-y-2 ">
             <CardTitle>{title}</CardTitle>
             <div className="flex gap-2 text-sm leading-tight text-muted-foreground">
               <span>
