@@ -15,7 +15,7 @@ import { Button } from "~/common/components/ui/button";
 
 interface TeamCardProps {
   id: string;
-  leaderName: string;
+  leaderUsername: string;
   leaderAvatarUrl: string;
   positions: string[];
   projectDescription: string;
@@ -23,7 +23,7 @@ interface TeamCardProps {
 
 export function TeamCard({
   id,
-  leaderName,
+  leaderUsername,
   leaderAvatarUrl,
   positions,
   projectDescription,
@@ -37,10 +37,10 @@ export function TeamCard({
               variant="secondary"
               className="inline-flex shadow-sm items-center text-base"
             >
-              <span>@{leaderName}</span>
+              <span>@{leaderUsername}</span>
               <Avatar className="size-5">
                 <AvatarImage src={leaderAvatarUrl} />
-                <AvatarFallback>{leaderName}</AvatarFallback>
+                <AvatarFallback>{leaderUsername}</AvatarFallback>
               </Avatar>
             </Badge>
             <span> is looking for </span>
