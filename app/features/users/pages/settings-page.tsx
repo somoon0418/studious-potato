@@ -20,7 +20,7 @@ export default function SettingsPage() {
     }
   };
   return (
-    <div className="space-y-20 ">
+    <div className="space-y-20">
       <div className="grid grid-cols-6 gap-40">
         <div className="col-span-4 flex flex-col gap-10">
           <h2 className="text-2xl font-semibold">Edit profile</h2>
@@ -47,6 +47,15 @@ export default function SettingsPage() {
               ]}
             />
             <InputPair
+              label="Headline"
+              description="An introduction to your profile."
+              required
+              id="headline"
+              name="headline"
+              placeholder="John Doe"
+              textArea
+            />
+            <InputPair
               label="Bio"
               description="Your public bio. It will be displayed on your profile page."
               required
@@ -66,14 +75,14 @@ export default function SettingsPage() {
             </small>
           </Label>
           <div className="space-y-5">
-            <div className="size-40 rounded-full shadow-xl overflow-hidden mx-auto">
+            <div className="size-40 rounded-full shadow-xl overflow-hidden ">
               {avatar ? (
                 <img src={avatar} className="object-cover w-full h-full" />
               ) : null}
             </div>
             <Input
               type="file"
-              className="w-1/2 mx-auto"
+              className="w-1/2"
               onChange={onChange}
               required
               name="icon"
