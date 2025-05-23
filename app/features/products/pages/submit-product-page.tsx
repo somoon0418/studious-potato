@@ -104,7 +104,6 @@ export default function SubmitPage() {
               This is the icon your product.
             </small>
           </Label>
-
           <Input
             type="file"
             className="max-w-1/2"
