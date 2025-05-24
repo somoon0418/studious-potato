@@ -1,6 +1,3 @@
-import { Button } from "~/common/components/ui/button";
-import { PlusIcon } from "lucide-react";
-import { Link } from "react-router";
 import { Hero } from "~/common/components/hero";
 import { IdeaCard } from "../components/idea-card";
 
@@ -21,9 +18,9 @@ export default function IdeasPage() {
             key={`idea-Id-${index}`}
             id={`idea-Id-${index}`}
             title={`Idea ${index + 1}`}
-            viewCount={index + 1}
+            viewsCount={index + 1}
             postedAt={`${index + 1} days ago`}
-            likeCount={index + 1}
+            likesCount={index + 1}
             claimed={index % 2 === 0}
           />
         ))}

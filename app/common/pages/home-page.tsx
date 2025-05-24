@@ -33,11 +33,11 @@ export default function HomePage() {
           <ProductCard
             key={index}
             id={`productId-${index}`}
-            title={`Product Name ${index}`}
+            name={`Product Name ${index}`}
             description={`Product Description ${index}`}
-            commentCount={10}
-            viewCount={100}
-            upvoteCount={120}
+            commentsCount={10}
+            viewsCount={100}
+            votesCount={120}
           />
         ))}
       </div>
@@ -83,9 +83,9 @@ export default function HomePage() {
             key={index}
             id={`ideaId-${index}`}
             title={`A startup that creates an AI-powered generated personal trainer, delivering customized fitness recommendations and tracking of progress using a mobile app to track workouts and progress as well as a website to manage the business.`}
-            viewCount={100}
+            viewsCount={100}
             postedAt="12 hours ago"
-            likeCount={12}
+            likesCount={12}
             claimed={index % 2 === 0}
           />
         ))}
@@ -133,7 +133,7 @@ export default function HomePage() {
           <TeamCard
             key={`teamId-${index}`}
             id={`teamId-${index}`}
-            leaderName="Lynn"
+            leaderUsername="Lynn"
             leaderAvatarUrl="https://github.com/inthetiger.png"
             positions={[
               "React Developer",

@@ -8,7 +8,7 @@ import {
 } from "~/common/components/ui/sidebar";
 import { MessageCard } from "../components/message-card";
 
-export default function ProfileLayout() {
+export default function MessagesLayout() {
   return (
     <SidebarProvider className="flex max-h-[calc(100vh-14rem)] overflow-hidden h-[calc(100vh-14rem)] min-h-full">
       <Sidebar className="pt-16" variant="floating">

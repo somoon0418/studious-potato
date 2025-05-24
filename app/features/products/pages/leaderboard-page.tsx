@@ -37,11 +37,11 @@ export default function LeaderboardPage() {
           <ProductCard
             key={index}
             id={`productId-${index}`}
-            title={`Product Name ${index}`}
+            name={`Product Name ${index}`}
             description={`Product Description ${index}`}
-            commentCount={10}
-            viewCount={100}
-            upvoteCount={120}
+            commentsCount={10}
+            viewsCount={100}
+            votesCount={120}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">
@@ -63,11 +63,11 @@ export default function LeaderboardPage() {
           <ProductCard
             key={index}
             id={`productId-${index}`}
-            title={`Product Name ${index}`}
+            name={`Product Name ${index}`}
             description={`Product Description ${index}`}
-            commentCount={10}
-            viewCount={100}
-            upvoteCount={120}
+            commentsCount={10}
+            viewsCount={100}
+            votesCount={120}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">
@@ -89,11 +89,11 @@ export default function LeaderboardPage() {
           <ProductCard
             key={index}
             id={`productId-${index}`}
-            title={`Product Name ${index}`}
+            name={`Product Name ${index}`}
             description={`Product Description ${index}`}
-            commentCount={10}
-            viewCount={100}
-            upvoteCount={120}
+            commentsCount={10}
+            viewsCount={100}
+            votesCount={120}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">
@@ -115,11 +115,11 @@ export default function LeaderboardPage() {
           <ProductCard
             key={index}
             id={`productId-${index}`}
-            title={`Product Name ${index}`}
+            name={`Product Name ${index}`}
             description={`Product Description ${index}`}
-            commentCount={10}
-            viewCount={100}
-            upvoteCount={120}
+            commentsCount={10}
+            viewsCount={100}
+            votesCount={120}
           />
         ))}
         <Button variant="link" asChild className="text-lg self-center">

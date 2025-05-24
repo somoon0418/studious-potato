@@ -1,5 +1,4 @@
 import { Hero } from "~/common/components/hero";
-import { IdeaCard } from "../components/idea-card";
 import { EyeIcon, HeartIcon } from "lucide-react";
 import { DotIcon } from "lucide-react";
 import { Button } from "~/common/components/ui/button";

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import type { Route } from "./+types/search-page";
+import type { Route } from "./+types/search-product-page";
 import { ProductCard } from "~/features/products/components/product-card";
 import { Form } from "react-router";
 import { data } from "react-router";
