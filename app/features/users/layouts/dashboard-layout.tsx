@@ -20,7 +20,6 @@ export default function DashboardLayout() {
           <SidebarGroup>
             <SidebarMenu>
               <SidebarMenuItem>
-                {" "}
                 <SidebarMenuButton
                   asChild
                   isActive={location.pathname === "/my/dashboard"}
