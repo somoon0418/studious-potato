@@ -27,8 +27,8 @@ export default function CommunityPage() {
         title="Community"
         subtitle="Ask questions, share ideas, and connect with other developers"
       />
-      <div className="grid grid-cols-6 items-start gap-40">
-        <div className="col-span-4 space-y-10">
+      <div className="grid grid-cols-1 lg:grid-cols-6 items-start gap-40">
+        <div className="lg:col-span-4 space-y-10">
           <div className="flex justify-between">
             <div className="space-y-5 w-full">
               <div className="flex items-center gap-5">
@@ -106,7 +106,7 @@ export default function CommunityPage() {
             ))}
           </div>
         </div>
-        <aside className="col-span-2 space-y-5">
+        <aside className="lg:col-span-2 space-y-5">
           <span className="text-sm font-bold text-muted-foreground uppercase">
             Topics
           </span>

@@ -14,7 +14,7 @@ export default function TeamsPage() {
   return (
     <div className="space-y-20">
       <Hero title="Teams" subtitle="Find a team looking for a new member" />
-      <div className="grid grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {Array.from({ length: 3 }).map((_, index) => (
           <TeamCard
             key={`teamId-${index}`}

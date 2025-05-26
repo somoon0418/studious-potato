@@ -21,8 +21,8 @@ export default function SettingsPage() {
   };
   return (
     <div className="space-y-20">
-      <div className="grid grid-cols-6 gap-40">
-        <div className="col-span-4 flex flex-col gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-40">
+        <div className="md:col-span-2 lg:col-span-4 flex flex-col gap-10">
           <h2 className="text-2xl font-semibold">Edit profile</h2>
           <Form className="flex flex-col w-1/2 gap-5">
             <InputPair
@@ -67,7 +67,7 @@ export default function SettingsPage() {
             <Button className="w-full">Update profile</Button>
           </Form>
         </div>
-        <aside className="col-span-2 p-6 rounded-lg border shadow-md">
+        <aside className="md:col-span-1 lg:col-span-2 p-6 rounded-lg border shadow-md">
           <Label className="flex flex-col gap-1">
             Avatar
             <small className="text-muted-foreground">

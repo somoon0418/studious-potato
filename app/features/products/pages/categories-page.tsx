@@ -13,7 +13,7 @@ export default function CategoriesPage() {
   return (
     <div className="space-y-10">
       <Hero title="Categories" subtitle="Browse products by category" />
-      <div className="grid grid-cols-4 gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
         {Array.from({ length: 12 }).map((_, index) => (
           <CategoryCard
             key={index}

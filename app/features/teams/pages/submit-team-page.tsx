@@ -14,7 +14,7 @@ export default function SubmitTeamPage() {
     <div className="space-y-20">
       <Hero title="Create Team" subtitle="Create a team to find a team mate." />
       <Form className="max-w-screen-2xl flex flex-col items-center gap-10 mx-auto">
-        <div className="grid grid-cols-3 w-full gap-10">
+        <div className="grid grid-cols-1 lg:grid-cols-3 w-full gap-10">
           <InputPair
             label="What is the name of your product?"
             description="(20 characters max)"

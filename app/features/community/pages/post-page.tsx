@@ -48,8 +48,8 @@ export default function PostPage() {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="grid grid-cols-6 gap-40 items-start">
-        <div className="col-span-4 space-y-10">
+      <div className="grid grid-cols-1 lg:grid-cols-6 gap-40 items-start">
+        <div className="lg:col-span-4 space-y-10">
           <div className="flex w-full items-start gap-10">
             <Button variant="outline" className="flex flex-col h-14">
               <ChevronUpIcon className="size-4 shrink-0" />
@@ -104,7 +104,7 @@ export default function PostPage() {
             </div>
           </div>
         </div>
-        <aside className="col-span-2 space-y-5 border rounded-lg p-6 shadow-sm">
+        <aside className="lg:col-span-2 space-y-5 border rounded-lg p-6 shadow-sm">
           <div className="flex gap-5">
             <Avatar className="size-14">
               <AvatarFallback>N</AvatarFallback>
