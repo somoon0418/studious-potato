@@ -15,6 +15,13 @@
       "when": 1748409149128,
       "tag": "0001_rapid_blue_blade",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1748411846813,
+      "tag": "0002_clammy_morlun",
+      "breakpoints": true
     }
   ]
 }
