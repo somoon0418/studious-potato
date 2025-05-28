@@ -1,27 +1,25 @@
-//all the models for the users feature
-
 import {
-  bigint,
   jsonb,
   pgEnum,
   pgSchema,
   pgTable,
-  uuid,
   text,
   timestamp,
+  uuid,
 } from "drizzle-orm/pg-core";
 
 const users = pgSchema("auth").table("users", {
   id: uuid().primaryKey(),
 });
 
-export const roles = pgEnum("roles", [
+export const roles = pgEnum("role", [
   "developer",
   "designer",
   "marketer",
   "founder",
   "product-manager",
 ]);
+
 export const profiles = pgTable("profiles", {
   profile_id: uuid()
     .primaryKey()
