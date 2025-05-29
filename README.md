@@ -117,3 +117,22 @@ export default [
 Create all the files for the routes in the file.
 No fixing types and other files. Just create page files.
 ```
+
+#### 💬 Create User using SupabaseClient)
+
+```js
+import { createClient } from "@supabase/supabase-js";
+
+const supabase = createClient("https://project-id.supabase.co", "project-key");
+
+async function createUser() {
+  const { data, error } = await supabase.auth.signUp({
+    email: "test@example.com",
+    password: "password123",
+  });
+  if (error) console.error("❌ SignUp Error:", error);
+  else console.log("✅ Signed up:", data.user);
+}
+
+createUser();
+```
