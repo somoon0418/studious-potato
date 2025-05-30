@@ -24,11 +24,14 @@ type PostWithRelations = {
 };
 
 export const getPosts = async () => {
+  // const { data, error } = await client
+  //   .from("posts")
+  //   .select(
+  //     `post_id, title, created_at, topic:topic_id!inner(name), author:profile_id!inner(name, username, avatar), upvotes:post_upvotes(count)`
+  //   );
   const { data, error } = await client
-    .from("posts")
-    .select(
-      `post_id, title, created_at, topic:topic_id!inner(name), author:profile_id!inner(name, username, avatar), upvotes:post_upvotes(count)`
-    );
+    .from("community_post_list_view")
+    .select("*");
   if (error) throw new Error(error.message);
-  return <PostWithRelations[]>data;
+  return data;
 };
