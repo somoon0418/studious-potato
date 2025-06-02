@@ -6,23 +6,6 @@ export const getTopics = async () => {
   return data;
 };
 
-type PostWithRelations = {
-  post_id: number;
-  title: string;
-  created_at: string;
-  topic: {
-    name: string;
-  };
-  author: {
-    name: string;
-    username: string;
-    avatar?: string;
-  };
-  upvotes: {
-    count: number;
-  }[];
-};
-
 export const getPosts = async () => {
   // const { data, error } = await client
   //   .from("posts")
