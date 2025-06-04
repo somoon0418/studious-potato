@@ -162,6 +162,7 @@ export default function Navigation({
               <NavigationMenuItem key={menu.name}>
                 {menu.items ? (
                   <>
+                    {/* <Link to={menu.to} prefetch="intent"> */}
                     <Link to={menu.to}>
                       <NavigationMenuTrigger>{menu.name}</NavigationMenuTrigger>
                     </Link>
