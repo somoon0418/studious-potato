@@ -60,7 +60,7 @@ export default function App() {
       className={cn([
         {
           "py-15 px-5 lg:py-28 lg:px-20": isAuth,
-          "transition-opacity animate-pulse": isLoading,
+          // "transition-opacity animate-pulse": isLoading,
         },
       ])}
     >
