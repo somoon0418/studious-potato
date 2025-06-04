@@ -110,9 +110,9 @@ export default function YearlyLeaderboardPage({
             id={`productId-${index}`}
             name="Product Name"
             description="Product Description"
-            commentsCount={12}
-            viewsCount={12}
-            votesCount={120}
+            reviewsCount={"12"}
+            viewsCount={"12"}
+            votesCount={"120"}
           />
         ))}
       </div>

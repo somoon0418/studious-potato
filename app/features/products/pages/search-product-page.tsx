@@ -63,9 +63,9 @@ export default function SearchPage() {
             id={`productId-${index}`}
             name="Product Name"
             description="Product Description"
-            commentsCount={10}
-            viewsCount={100}
-            votesCount={120}
+            reviewsCount={"10"}
+            viewsCount={"100"}
+            votesCount={"120"}
           />
         ))}
       </div>

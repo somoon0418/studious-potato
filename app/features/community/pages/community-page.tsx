@@ -1,6 +1,6 @@
 import { Hero } from "~/common/components/hero";
 import type { Route } from "./+types/community-page";
-import { Await, Form, Link, useSearchParams } from "react-router";
+import { Form, Link, useSearchParams } from "react-router";
 import { Button } from "~/common/components/ui/button";
 import {
   DropdownMenu,
@@ -13,7 +13,6 @@ import { PERIOD_OPTIONS, SORT_OPTIONS } from "../constants";
 import { Input } from "~/common/components/ui/input";
 import { PostCard } from "../components/post-card";
 import { getPosts, getTopics } from "../queries";
-import { Suspense } from "react";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Community | wemake" }];
@@ -21,25 +20,21 @@ export const meta: Route.MetaFunction = () => {
 
 export const loader = async () => {
   const [topics, posts] = await Promise.all([getTopics(), getPosts()]);
-  //topics from server
-  // const topics = await getTopics();
-  // const posts = getPosts();
   return { topics, posts };
 };
 
 export default function CommunityPage({ loaderData }: Route.ComponentProps) {
-  const { topics, posts } = loaderData;
   const [searchParams, setSearchParams] = useSearchParams();
   const sorting = searchParams.get("sorting") || "newest";
   const period = searchParams.get("period") || "all";
   return (
-    <div>
+    <div className="space-y-20">
       <Hero
         title="Community"
         subtitle="Ask questions, share ideas, and connect with other developers"
       />
-      <div className="grid grid-cols-1 lg:grid-cols-6 items-start gap-40">
-        <div className="lg:col-span-4 space-y-10">
+      <div className="grid grid-cols-6 items-start gap-40">
+        <div className="col-span-4 space-y-10">
           <div className="flex justify-between">
             <div className="space-y-5 w-full">
               <div className="flex items-center gap-5">
@@ -103,7 +98,7 @@ export default function CommunityPage({ loaderData }: Route.ComponentProps) {
             </Button>
           </div>
           <div className="space-y-5">
-            {posts.map((post) => (
+            {loaderData.posts.map((post) => (
               <PostCard
                 key={post.post_id}
                 id={post.post_id}
@@ -118,12 +113,12 @@ export default function CommunityPage({ loaderData }: Route.ComponentProps) {
             ))}
           </div>
         </div>
-        <aside className="lg:col-span-2 space-y-5">
+        <aside className="col-span-2 space-y-5">
           <span className="text-sm font-bold text-muted-foreground uppercase">
             Topics
           </span>
           <div className="flex flex-col gap-2 items-start">
-            {topics.map((topic) => (
+            {loaderData.topics.map((topic) => (
               <Button
                 asChild
                 variant={"link"}

@@ -14,9 +14,9 @@ export default function ProfileProductsPage() {
           id={`productId-${index}`}
           name="Product Name"
           description="Product Description"
-          commentsCount={12}
-          viewsCount={12}
-          votesCount={120}
+          commentsCount={"12"}
+          viewsCount={"12"}
+          votesCount={"120"}
         />
       ))}
     </div>

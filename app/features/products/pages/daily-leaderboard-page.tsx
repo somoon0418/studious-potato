@@ -106,9 +106,9 @@ export default function DailyLeaderboardPage({
             id={`productId-${index}`}
             name={`Product Name ${index}`}
             description={`Product Description ${index}`}
-            commentsCount={10}
-            viewsCount={100}
-            votesCount={120}
+            reviewsCount={"10"}
+            viewsCount={"100"}
+            votesCount={"120"}
           />
         ))}
       </div>
