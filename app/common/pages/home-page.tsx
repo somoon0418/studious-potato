@@ -9,6 +9,7 @@ import { TeamCard } from "~/features/teams/components/team-card";
 import { getProductsByDateRange } from "~/features/products/queries";
 import { DateTime } from "luxon";
 import type { Route } from "./+types/home-page";
+import { getPosts } from "~/features/community/queries";
 
 export const meta: MetaFunction = () => {
   return [
@@ -18,12 +19,19 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader = async () => {
-  const products = await getProductsByDateRange({
-    startDate: DateTime.now().startOf("day"),
-    endDate: DateTime.now().endOf("day"),
-    limit: 7,
-  });
-  return { products };
+  const [products, posts] = await Promise.all([
+    getProductsByDateRange({
+      startDate: DateTime.now().startOf("day"),
+      endDate: DateTime.now().endOf("day"),
+      limit: 7,
+    }),
+    getPosts({
+      limit: 7,
+      sorting: "newest",
+    }),
+  ]);
+
+  return { products, posts };
 };
 export default function HomePage({ loaderData }: Route.ComponentProps) {
   return (
@@ -64,15 +72,15 @@ export default function HomePage({ loaderData }: Route.ComponentProps) {
             <Link to="/community">Explore all discussions &rarr;</Link>
           </Button>
         </div>
-        {Array.from({ length: 11 }).map((_, index) => (
+        {loaderData.posts.map((post) => (
           <PostCard
-            key={`postId-${index}`}
-            id={`postId-${index}`}
-            title="What is the best productivity tool?"
-            author="Nico"
-            authorAvatarUrl="https://github.com/apple.png"
-            category="Productivity"
-            postedAt="12 hours ago"
+            key={post.post_id.toString()}
+            id={post.post_id}
+            title={post.title}
+            author={post.author}
+            authorAvatarUrl={post.author_avatar}
+            category={post.topic}
+            postedAt={post.created_at}
             expanded
           />
         ))}
