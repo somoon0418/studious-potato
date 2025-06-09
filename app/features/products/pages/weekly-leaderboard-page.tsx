@@ -6,53 +6,12 @@ import { Hero } from "~/common/components/hero";
 import { ProductCard } from "../components/product-card";
 import { Button } from "~/common/components/ui/button";
 import ProductPagination from "~/common/components/product-pagination";
+import { getProductPagesByDateRange, getProductsByDateRange } from "../queries";
 
 const paramsSchema = z.object({
   year: z.coerce.number(),
   week: z.coerce.number(),
-  page: z.coerce.number().optional().default(1),
 });
-
-export const loader = ({ params }: Route.LoaderArgs) => {
-  const { success, data: parsedData } = paramsSchema.safeParse(params);
-  if (!success) {
-    throw data(
-      {
-        error_code: "invalid_params",
-        message: "Invalid params",
-      },
-      { status: 400 }
-    );
-  }
-  const date = DateTime.fromObject({
-    weekYear: parsedData.year,
-    weekNumber: parsedData.week,
-  });
-  if (!date.isValid) {
-    throw data(
-      {
-        error_code: "invalid_date",
-        message: "Invalid date",
-      },
-      {
-        status: 400,
-      }
-    );
-  }
-  const today = DateTime.now().startOf("week");
-  if (date > today) {
-    throw data(
-      {
-        error_code: "future_date",
-        message: "Future date",
-      },
-      { status: 400 }
-    );
-  }
-  return {
-    ...parsedData,
-  };
-};
 
 export const meta: Route.MetaFunction = ({ params }) => {
   const date = DateTime.fromObject({
@@ -70,6 +29,60 @@ export const meta: Route.MetaFunction = ({ params }) => {
         .toLocaleString(DateTime.DATE_SHORT)} | wemake`,
     },
   ];
+};
+
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
+  const { success, data: parsedData } = paramsSchema.safeParse(params);
+  if (!success) {
+    throw data(
+      {
+        error_code: "invalid_params",
+        message: "Invalid params",
+      },
+      { status: 400 }
+    );
+  }
+  const date = DateTime.fromObject({
+    weekYear: parsedData.year,
+    weekNumber: parsedData.week,
+  }).setZone("Asia/Seoul");
+  if (!date.isValid) {
+    throw data(
+      {
+        error_code: "invalid_date",
+        message: "Invalid date",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+  const today = DateTime.now().setZone("Asia/Seoul").startOf("week");
+  if (date > today) {
+    throw data(
+      {
+        error_code: "future_date",
+        message: "Future date",
+      },
+      { status: 400 }
+    );
+  }
+  const url = new URL(request.url);
+  const products = await getProductsByDateRange({
+    startDate: date.startOf("week"),
+    endDate: date.endOf("week"),
+    limit: 15,
+    page: Number(url.searchParams.get("page") || 1),
+  });
+  const totalPages = await getProductPagesByDateRange({
+    startDate: date.startOf("week"),
+    endDate: date.endOf("week"),
+  });
+  return {
+    products,
+    totalPages,
+    ...parsedData,
+  };
 };
 
 export default function WeeklyLeaderboardPage({
@@ -94,37 +107,35 @@ export default function WeeklyLeaderboardPage({
       <div className="flex items-center justify-center gap-2">
         <Button variant="secondary" asChild>
           <Link
-            to={`/products/leaderboards/weekly/${previousWeek.weekYear}/${previousWeek.weekNumber}`}
+            to={`/products/leaderboards/weekly/${previousWeek.year}/${previousWeek.weekNumber}`}
           >
-            &larr;
-            {previousWeek.startOf("week").toLocaleString(DateTime.DATE_SHORT)}
+            &larr; {previousWeek.toLocaleString(DateTime.DATE_SHORT)}
           </Link>
         </Button>
         {!isToday ? (
           <Button variant="secondary" asChild>
             <Link
-              to={`/products/leaderboards/weekly/${nextWeek.weekYear}/${nextWeek.weekNumber}`}
+              to={`/products/leaderboards/weekly/${nextWeek.year}/${nextWeek.weekNumber}`}
             >
-              {nextWeek.startOf("week").toLocaleString(DateTime.DATE_SHORT)}{" "}
-              &rarr;
+              {nextWeek.toLocaleString(DateTime.DATE_SHORT)} &rarr;
             </Link>
           </Button>
         ) : null}
       </div>
       <div className="space-y-5 w-full max-w-screen-md mx-auto">
-        {Array.from({ length: 11 }).map((_, index) => (
+        {loaderData.products.map((product) => (
           <ProductCard
-            key={`productId-${index}`}
-            id={`productId-${index}`}
-            name="Product Name"
-            description="Product Description"
-            reviewsCount={"12"}
-            viewsCount={"12"}
-            votesCount={"120"}
+            key={product.product_id}
+            id={product.product_id.toString()}
+            name={product.name}
+            description={product.description}
+            reviewsCount={product.reviews}
+            viewsCount={product.views}
+            votesCount={product.upvotes}
           />
         ))}
       </div>
-      <ProductPagination totalPages={10} />
+      <ProductPagination totalPages={loaderData.totalPages} />
     </div>
   );
 }
