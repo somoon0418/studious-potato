@@ -2,40 +2,42 @@ import { Hero } from "~/common/components/hero";
 import { EyeIcon, HeartIcon } from "lucide-react";
 import { DotIcon } from "lucide-react";
 import { Button } from "~/common/components/ui/button";
+import type { Route } from "./+types/idea-page";
+import { getGptIdea } from "../queries";
+import { DateTime } from "luxon";
 
-export const meta = () => {
+export const meta = ({ data: { idea } }: Route.MetaArgs) => {
   return [
-    { title: "IdeasGPT | wemake" },
+    { title: `Idea #${idea.gpt_idea_id} | wemake` },
     { name: "description", content: "Find ideas for your next project" },
   ];
 };
 
-export default function IdeaPage() {
+export const loader = async ({ params }: Route.ComponentProps) => {
+  const { ideaId } = params;
+  const idea = await getGptIdea({ id: ideaId });
+  return { idea };
+};
+
+export default function IdeaPage({ loaderData }: Route.ComponentProps) {
   return (
     <div>
-      <Hero title="Ideas #1212122" />
+      <Hero title={`Ideas #${loaderData.idea.gpt_idea_id}`} />
       <div className="max-w-screen-sm mx-auto flex flex-col items-center gap-10">
-        <p className="italic text-center">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam,
-          quos. Lorem ipsum dolor sit amet consectetur adipisicing elit.
-          Quisquam, quos. Lorem ipsum dolor sit amet consectetur adipisicing
-          elit. Quisquam, quos. Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit amet
-          consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor sit
-          amet consectetur adipisicing elit. Quisquam, quos. Lorem ipsum dolor
-          sit amet consectetur adipisicing elit. Quisquam, quos.
-        </p>
+        <p className="italic text-center">{loaderData.idea.idea}</p>
         <div className="flex items-center text-sm">
           <div className="flex items-center gap-1">
             <EyeIcon className="size-4" />
-            <span>10</span>
+            <span>{loaderData.idea.views}</span>
           </div>
           <DotIcon className="size-4" />
-          <span>10 days ago</span>
+          <span>
+            {DateTime.fromISO(loaderData.idea.created_at).toRelative()}
+          </span>
           <DotIcon className="size-4" />
           <Button variant="outline">
             <HeartIcon className="size-4" />
-            <span>10</span>
+            <span>{loaderData.idea.likes}</span>
           </Button>
         </div>
         <Button size="lg">Claim idea now</Button>

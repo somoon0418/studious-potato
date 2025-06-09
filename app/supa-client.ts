@@ -1,7 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import type { Database } from "database.types";
 import type { MergeDeep, SetNonNullable, SetFieldType } from "type-fest";
-import { Database as SupabaseDatabase } from "database.types";
+import type { Database as SupabaseDatabase } from "database.types";
 type Database = MergeDeep<
   SupabaseDatabase,
   {
@@ -14,6 +13,15 @@ type Database = MergeDeep<
             >,
             "author_avatar",
             string | null
+          >;
+        };
+        gpt_ideas_view: {
+          Row: SetFieldType<
+            SetNonNullable<
+              SupabaseDatabase["public"]["Views"]["gpt_ideas_view"]["Row"]
+            >,
+            "is_claimed",
+            boolean
           >;
         };
       };
