@@ -1,50 +1,63 @@
-import { Form } from "react-router";
-import { ProductCard } from "../components/product-card";
-import type { Route } from "./+types/category-page";
-import { Button } from "~/common/components/ui/button";
 import { Hero } from "~/common/components/hero";
-import { Input } from "~/common/components/ui/input";
+import { ProductCard } from "../components/product-card";
 import ProductPagination from "~/common/components/product-pagination";
+import type { Route } from "./+types/category-page";
+import { z } from "zod";
+import {
+  getCategory,
+  getCategoryPages,
+  getProductsByCategory,
+} from "../queries";
 
-export const meta: Route.MetaFunction = ({ params }: Route.MetaArgs) => {
+export const meta = ({ params }: Route.MetaArgs) => {
   return [
-    { title: `Developer Tools | WeMake` },
-    { name: "description", content: "Browse Developer Tools Products" },
+    { title: `Developer Tools | ProductHunt Clone` },
+    { name: "description", content: `Browse Developer Tools products` },
   ];
 };
 
-export default function CategoryPage() {
+const paramsSchema = z.object({
+  category: z.coerce.number(),
+});
+
+export const loader = async ({ params, request }: Route.LoaderArgs) => {
+  const url = new URL(request.url);
+  const page = url.searchParams.get("page") || 1;
+  const { data, success } = paramsSchema.safeParse(params);
+  if (!success) {
+    throw new Response("Invalid category", { status: 400 });
+  }
+  const category = await getCategory(data.category);
+  const products = await getProductsByCategory({
+    categoryId: data.category,
+    page: Number(page),
+  });
+  const totalPages = await getCategoryPages(data.category);
+  return { category, products, totalPages };
+};
+
+export default function CategoryPage({ loaderData }: Route.ComponentProps) {
   return (
     <div className="space-y-10">
       <Hero
-        title="Developer Tools"
-        subtitle="Tools for developers to build products faster"
+        title={loaderData.category.name}
+        subtitle={loaderData.category.description}
       />
-      <Form
-        method="get"
-        className="flex justify-center max-w-screen-sm items-center mx-auto gap-2"
-      >
-        <Input
-          name="query"
-          placeholder="Search for products"
-          className="text-lg"
-        />
-        <Button type="submit">Search</Button>
-      </Form>
+
       <div className="space-y-5 w-full max-w-screen-md mx-auto">
-        {Array.from({ length: 12 }).map((_, index) => (
+        {loaderData.products.map((product) => (
           <ProductCard
-            key={index}
-            id={`productId-${index}`}
-            name="Product Name"
-            description="Product Description"
-            reviewsCount={"10"}
-            viewsCount={"100"}
-            votesCount={"120"}
+            key={product.product_id}
+            id={product.product_id}
+            name={product.name}
+            description={product.description}
+            reviewsCount={product.reviews}
+            viewsCount={product.views}
+            votesCount={product.upvotes}
           />
         ))}
       </div>
-      <ProductPagination totalPages={10} />
+      <ProductPagination totalPages={loaderData.totalPages} />
     </div>
   );
 }
