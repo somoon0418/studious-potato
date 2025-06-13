@@ -73,14 +73,14 @@ VALUES
 INSERT INTO gpt_ideas_likes (gpt_idea_id, profile_id)
 VALUES (10, 'f1bea9c9-8cd7-4550-97e3-8ec36f3f353b');
 
--- Seed team
-INSERT INTO team (product_name, team_size, equity_split, product_stage, roles, product_description, created_at, updated_at)
+-- Seed teams
+INSERT INTO teams (product_name, team_size, equity_split, product_stage, roles, product_description, team_leader_id, created_at, updated_at)
 VALUES
-  ('DevTool Pro', 3, 30, 'mvp', 'Developer, Designer, Marketing', 'Developer productivity suite', NOW(), NOW()),
-  ('DesignMaster', 2, 50, 'prototype', 'Designer, Developer', 'Design automation platform', NOW(), NOW()),
-  ('MarketGenius', 4, 25, 'product', 'Marketing, Sales, Developer, Designer', 'Marketing analytics platform', NOW(), NOW()),
-  ('CodeBuddy', 2, 50, 'idea', 'Developer, Product Manager', 'AI coding assistant', NOW(), NOW()),
-  ('DataViz', 3, 33, 'mvp', 'Data Scientist, Developer, Designer', 'Data visualization tool', NOW(), NOW());
+  ('DevTool Pro', 3, 30, 'mvp', 'Developer, Designer, Marketing', 'Developer productivity suite', 'f1bea9c9-8cd7-4550-97e3-8ec36f3f353b', NOW(), NOW()),
+  ('DesignMaster', 2, 50, 'prototype', 'Designer, Developer', 'Design automation platform', 'f1bea9c9-8cd7-4550-97e3-8ec36f3f353b', NOW(), NOW()),
+  ('MarketGenius', 4, 25, 'product', 'Marketing, Sales, Developer, Designer', 'Marketing analytics platform', 'f1bea9c9-8cd7-4550-97e3-8ec36f3f353b', NOW(), NOW()),
+  ('CodeBuddy', 2, 50, 'idea', 'Developer, Product Manager', 'AI coding assistant', 'f1bea9c9-8cd7-4550-97e3-8ec36f3f353b', NOW(), NOW()),
+  ('DataViz', 3, 33, 'mvp', 'Data Scientist, Developer, Designer', 'Data visualization tool', 'f1bea9c9-8cd7-4550-97e3-8ec36f3f353b', NOW(), NOW());
 
 -- Seed message rooms
 INSERT INTO message_rooms (created_at)

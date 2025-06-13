@@ -50,6 +50,13 @@
       "when": 1749018718924,
       "tag": "0006_wild_norrin_radd",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1749856941086,
+      "tag": "0007_complex_ender_wiggin",
+      "breakpoints": true
     }
   ]
 }

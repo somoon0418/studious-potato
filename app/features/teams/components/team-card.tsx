@@ -14,9 +14,9 @@ import {
 import { Button } from "~/common/components/ui/button";
 
 interface TeamCardProps {
-  id: string;
+  id: number;
   leaderUsername: string;
-  leaderAvatarUrl: string;
+  leaderAvatarUrl: string | null;
   positions: string[];
   projectDescription: string;
 }
@@ -29,30 +29,32 @@ export function TeamCard({
   projectDescription,
 }: TeamCardProps) {
   return (
-    <Link to={`/teams/${id}`}>
-      <Card className="bg-transparent transition-colors hover:bg-card/50">
+    <Link to={`/teams/${id}`} className="block">
+      <Card className="bg-transparent hover:bg-card/50 flex flex-col justify-between transition-colors h-full ">
         <CardHeader className="flex flex-row items-center">
           <CardTitle className="text-base leading-loose">
             <Badge
-              variant="secondary"
+              variant={"secondary"}
               className="inline-flex shadow-sm items-center text-base"
             >
               <span>@{leaderUsername}</span>
               <Avatar className="size-5">
-                <AvatarImage src={leaderAvatarUrl} />
-                <AvatarFallback>{leaderUsername}</AvatarFallback>
+                <AvatarFallback>{leaderUsername[0]}</AvatarFallback>
+                {leaderAvatarUrl ? <AvatarImage src={leaderAvatarUrl} /> : null}
               </Avatar>
             </Badge>
             <span> is looking for </span>
             {positions.map((position, index) => (
-              <Badge key={position}>{position}</Badge>
+              <Badge key={index} className="text-base">
+                {position}
+              </Badge>
             ))}
             <span> to build </span>
             <span>{projectDescription}</span>
           </CardTitle>
         </CardHeader>
         <CardFooter className="justify-end">
-          <Button variant="link">Join team&rarr;</Button>
+          <Button variant={"link"}>Join team &rarr;</Button>
         </CardFooter>
       </Card>
     </Link>
