@@ -8,7 +8,7 @@ import { DateTime } from "luxon";
 
 export const meta = ({ data: { idea } }: Route.MetaArgs) => {
   return [
-    { title: `Idea #${idea.gpt_idea_id} | wemake` },
+    { title: `Idea #${idea.gpt_idea_id} ${idea.idea} | wemake` },
     { name: "description", content: "Find ideas for your next project" },
   ];
 };

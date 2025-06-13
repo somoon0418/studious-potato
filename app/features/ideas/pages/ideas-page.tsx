@@ -23,7 +23,7 @@ export default function IdeasPage({ loaderData }: Route.ComponentProps) {
         {loaderData.gptIdeas.map((idea) => (
           <IdeaCard
             key={idea.gpt_idea_id}
-            id={idea.gpt_idea_id.toString()}
+            id={idea.gpt_idea_id}
             title={idea.idea}
             viewsCount={idea.views}
             postedAt={idea.created_at}

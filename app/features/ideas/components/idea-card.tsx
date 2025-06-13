@@ -12,7 +12,7 @@ import { cn } from "~/lib/utils";
 import { DateTime } from "luxon";
 
 interface IdeaCardProps {
-  id: string;
+  id: number;
   title: string;
   viewsCount: number;
   postedAt: string;
