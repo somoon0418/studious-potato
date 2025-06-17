@@ -1,50 +1,55 @@
-import { StarIcon, UserIcon } from "lucide-react";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "~/common/components/ui/avatar";
 import { Button } from "~/common/components/ui/button";
 import { ReviewCard } from "../components/review-card";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "~/common/components/ui/dialog";
+import { Dialog, DialogTrigger } from "~/common/components/ui/dialog";
 import { CreateReviewDialog } from "../components/create-review-dialog";
-export const meta = () => {
+import { useOutletContext } from "react-router";
+import type { Route } from "./+types/product-reviews-page";
+import { getReviews } from "../queries";
+
+export function meta() {
   return [
     { title: "Product Reviews | wemake" },
-    { name: "description", content: "View and manage product reviews" },
+    { name: "description", content: "Read and write product reviews" },
   ];
+}
+
+export const loader = async ({ params }: Route.LoaderArgs) => {
+  const reviews = await getReviews(params.productId);
+  return { reviews };
 };
 
-export default function ProductReviewsPage() {
+export default function ProductReviewsPage({
+  loaderData,
+}: Route.ComponentProps) {
+  const { review_count } = useOutletContext<{
+    review_count: string;
+  }>();
   return (
     <Dialog>
-      <div className="space-y-10 max-w-xl ">
-        <div className="flex items-center justify-between">
-          <h2 className="text-2xl font-bold">10 Reviews</h2>
+      <div className="space-y-10 max-w-xl">
+        <div className="flex justify-between items-center">
+          <h2 className="text-2xl font-bold">
+            {review_count}{" "}
+            {review_count === "1" || review_count === "0"
+              ? "Review"
+              : "Reviews"}
+          </h2>
           <DialogTrigger asChild>
             <Button variant={"secondary"}>Write a review</Button>
           </DialogTrigger>
         </div>
         <div className="space-y-20">
-          <div className="space-y-5">
-            {Array.from({ length: 10 }).map((_, index) => (
-              <ReviewCard
-                key={index}
-                username="John Doe"
-                handle="username"
-                rating={5}
-                content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos."
-                postedAt="10 days ago"
-              />
-            ))}
-          </div>
+          {loaderData.reviews.map((review) => (
+            <ReviewCard
+              key={review.review_id}
+              username={review.user.name}
+              handle={review.user.username}
+              avatarUrl={review.user.avatar}
+              rating={review.rating}
+              content={review.review}
+              postedAt={review.created_at}
+            />
+          ))}
         </div>
       </div>
       <CreateReviewDialog />

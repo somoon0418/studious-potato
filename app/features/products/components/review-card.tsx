@@ -1,15 +1,15 @@
-import { UserIcon } from "lucide-react";
+import { StarIcon } from "lucide-react";
+import { DateTime } from "luxon";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
 } from "~/common/components/ui/avatar";
-import { StarIcon } from "lucide-react";
 
 interface ReviewCardProps {
   username: string;
   handle: string;
-  avatarUrl?: string;
+  avatarUrl: string | null;
   rating: number;
   content: string;
   postedAt: string;
@@ -27,23 +27,23 @@ export function ReviewCard({
     <div className="space-y-5">
       <div className="flex items-center gap-2">
         <Avatar>
-          <AvatarFallback>
-            <UserIcon className="h-4 w-4" />
-          </AvatarFallback>
-          {avatarUrl && <AvatarImage src={avatarUrl} />}
+          <AvatarFallback>{username[0]}</AvatarFallback>
+          {avatarUrl ? <AvatarImage src={avatarUrl} /> : null}
         </Avatar>
         <div>
           <h4 className="text-lg font-bold">{username}</h4>
-          <p className="text-muted-foreground text-sm">@{handle}</p>
+          <p className="text-sm text-muted-foreground">{handle}</p>
         </div>
       </div>
       <div className="flex text-yellow-400">
-        {Array.from({ length: rating }).map((_, index) => (
-          <StarIcon key={index} className="size-4" fill="currentColor" />
+        {Array.from({ length: rating }).map((_, i) => (
+          <StarIcon key={i} className="size-4" fill="currentColor" />
         ))}
       </div>
       <p className="text-muted-foreground">{content}</p>
-      <span className="text-muted-foreground text-xs">{postedAt}</span>
+      <span className="text-xs text-muted-foreground">
+        {DateTime.fromISO(postedAt).toRelative()}
+      </span>
     </div>
   );
 }
