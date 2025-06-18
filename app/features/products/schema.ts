@@ -1,6 +1,7 @@
 import {
   bigint,
   check,
+  foreignKey,
   integer,
   jsonb,
   pgTable,
@@ -24,7 +25,6 @@ export const products = pgTable("products", {
   url: text().notNull(),
   stats: jsonb().notNull().default({ views: 0, reviews: 0, upvotes: 0 }),
   profile_id: uuid()
-    .references(() => profiles.profile_id, { onDelete: "cascade" })
     .notNull(),
   category_id: bigint({ mode: "number" }).references(
     () => categories.category_id,
@@ -32,7 +32,13 @@ export const products = pgTable("products", {
   ),
   created_at: timestamp().notNull().defaultNow(),
   updated_at: timestamp().notNull().defaultNow(),
-});
+}, (table) => [
+  foreignKey({
+    columns: [table.profile_id],
+    foreignColumns: [profiles.profile_id],
+    name: "products_to_profiles",
+  }).onDelete("cascade"),
+]);
 
 export const categories = pgTable("categories", {
   category_id: bigint({ mode: "number" })

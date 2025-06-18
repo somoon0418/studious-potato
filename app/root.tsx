@@ -66,7 +66,7 @@ export default function App() {
     >
       {!isAuth && (
         <Navigation
-          isLoggedIn={false}
+          isLoggedIn={true}
           hasNotifications={true}
           hasMessages={true}
         />
