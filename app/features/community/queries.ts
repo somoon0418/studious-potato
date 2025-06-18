@@ -66,3 +66,42 @@ export const getPostById = async (postId: string) => {
   if (error) throw error;
   return data;
 };
+
+type Reply = {
+  post_reply_id: number;
+  reply: string;
+  created_at: string;
+  user: {
+    name: string;
+    avatar: string;
+    username: string;
+  };
+  replies?: Reply[];
+};
+
+export const getReplies = async (postId: string) => {
+  const replyQuery = `
+    post_reply_id,
+    reply,
+    created_at,
+    user:profiles (
+      name,
+      avatar,
+      username
+    )
+  `;
+  const { data, error } = await client
+    .from("post_replies")
+    .select(
+      `
+      ${replyQuery},
+      replies:post_replies!parent_id (
+        ${replyQuery}
+      )
+      `
+    )
+    .eq("post_id", postId).not("user", "is", null).returns<Reply[]>()
+
+  if (error) throw error;
+  return data;
+};
