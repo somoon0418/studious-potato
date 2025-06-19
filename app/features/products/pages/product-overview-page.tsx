@@ -1,9 +1,10 @@
 import { useOutletContext } from "react-router";
 import type { Route } from "./+types/product-overview-page";
-import client from "~/supa-client";
+import { makeSSRClient } from "~/supa-client";
 
+export const loader = async ({ request, params }: Route.LoaderArgs) => {
+  const { client } = makeSSRClient(request);
 
-export const loader = async ({ params }: Route.LoaderArgs) => {
   await client.rpc("track_event", {
     event_type: "product_view",
     event_data: {

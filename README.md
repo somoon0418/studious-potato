@@ -136,3 +136,12 @@ async function createUser() {
 
 createUser();
 ```
+
+---
+
+### 🗺️ Auth - Server Side vs Cient Side
+
+- Browser
+  Client Cookies &rarr; Supabase Server &rarr; Who is the user?
+- Server
+  Browser Send Cookies &rarr;(auto) loader() receives cookies &rarr; Supabase SSC (cookies) &rarr; Supaase Server &rarr; Who is the user?

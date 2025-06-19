@@ -1,8 +1,9 @@
 import { redirect } from "react-router";
-import client from "~/supa-client";
 import type { Route } from "./+types/product-visit-page";
+import { makeSSRClient } from "~/supa-client";
 
-export const loader = async ({ params }: Route.LoaderArgs) => {
+export const loader = async ({ params, request }: Route.LoaderArgs) => {
+  const { client } = makeSSRClient(request);
   const { data, error } = await client
     .from("products")
     .select("url")

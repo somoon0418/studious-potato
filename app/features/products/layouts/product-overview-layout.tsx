@@ -5,6 +5,7 @@ import { Button, buttonVariants } from "~/common/components/ui/button";
 import { cn } from "~/lib/utils";
 import type { Route } from "./+types/product-overview-layout";
 import { getProductById } from "../queries";
+import { makeSSRClient } from "~/supa-client";
 
 export function meta({ data }: Route.MetaArgs) {
   return [
@@ -14,9 +15,11 @@ export function meta({ data }: Route.MetaArgs) {
 }
 
 export const loader = async ({
+  request,
   params,
 }: Route.LoaderArgs & { params: { productId: string } }) => {
-  const product = await getProductById(params.productId);
+  const { client } = makeSSRClient(request);
+  const product = await getProductById(client, params.productId);
   return { product };
 };
 
@@ -63,10 +66,12 @@ export default function ProductOverviewLayout({
             size="lg"
             className="text-lg h-14 px-10"
           >
-            <Link to={`/products/${loaderData.product.product_id}/visit`}>Visit Website</Link>
+            <Link to={`/products/${loaderData.product.product_id}/visit`}>
+              Visit Website
+            </Link>
           </Button>
           <Button size="lg" className="text-lg h-14 px-10">
-            <ChevronUpIcon className="size-4" />  
+            <ChevronUpIcon className="size-4" />
             Upvote ({loaderData.product.upvotes})
           </Button>
         </div>
