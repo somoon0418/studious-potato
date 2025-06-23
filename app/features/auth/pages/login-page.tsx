@@ -1,25 +1,55 @@
 import { Button } from "~/common/components/ui/button";
 import type { Route } from "./+types/login-page";
-import { Form, Link } from "react-router";
+import { Form, Link, redirect } from "react-router";
 import InputPair from "~/common/components/input-pair";
 import AuthButtons from "../components/auth-buttons";
 import { useNavigation } from "react-router";
 import { LoaderCircle } from "lucide-react";
+import { z } from "zod";
+import { makeSSRClient } from "~/supa-client";
 
 export const meta: Route.MetaFunction = () => {
   return [{ title: "Login | wemake" }];
 };
 
+const formSchema = z.object({
+  email: z
+    .string({
+      required_error: "Email is required",
+      invalid_type_error: "Email should be a string",
+    })
+    .email({
+      message: "Invalid email address",
+    }),
+  password: z
+    .string({
+      required_error: "Password is required",
+    })
+    .min(8, {
+      message: "Password must be at least 8 characters long",
+    }),
+});
 export const action = async ({ request }: Route.ActionArgs) => {
-  await new Promise((resolve) => setTimeout(resolve, 10000));
   const formData = await request.formData();
-  const email = formData.get("email");
-  const password = formData.get("password");
-
-  if (!email || !password) {
-    return { error: "Email and password are required" };
+  const { success, data, error } = formSchema.safeParse(
+    Object.fromEntries(formData)
+  );
+  if (!success) {
+    return { loginErrors: null, formErrors: error.flatten().fieldErrors };
   }
-  console.log(email, password);
+  const { email, password } = data;
+  const { client, headers } = makeSSRClient(request);
+  const {
+    data: { user },
+    error: loginError,
+  } = await client.auth.signInWithPassword({
+    email,
+    password,
+  });
+  if (loginError) {
+    return { loginErrors: loginError.message, formErrors: null };
+  }
+  return redirect("/", { headers });
 };
 export default function LoginPage({ actionData }: Route.ComponentProps) {
   const navigation = useNavigation();
@@ -41,6 +71,11 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
             type="text"
             placeholder="i.e wemake@example.com"
           />
+          {actionData && "formErrors" in actionData && (
+            <p className="text-red-500 text-sm">
+              {actionData?.formErrors?.email?.join(", ")}
+            </p>
+          )}
           <InputPair
             id="password"
             name="password"
@@ -50,6 +85,11 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
             type="password"
             placeholder="enter your password"
           />
+          {actionData && "formErrors" in actionData && (
+            <p className="text-red-500 text-sm">
+              {actionData?.formErrors?.password?.join(", ")}
+            </p>
+          )}
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? (
               <LoaderCircle className="w-4 h-4 animate-spin" />
@@ -57,8 +97,8 @@ export default function LoginPage({ actionData }: Route.ComponentProps) {
               "Log in"
             )}
           </Button>
-          {actionData?.error && (
-            <p className="text-red-500 text-sm">{actionData.error}</p>
+          {actionData && "loginErrors" in actionData && (
+            <p className="text-red-500 text-sm">{actionData.loginErrors}</p>
           )}
         </Form>
         <AuthButtons />
