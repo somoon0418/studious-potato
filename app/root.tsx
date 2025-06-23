@@ -13,8 +13,8 @@ import type { Route } from "./+types/root";
 import "./app.css";
 import Navigation from "./common/components/navigation";
 import { Settings } from "luxon";
-import path from "path";
 import { cn } from "./lib/utils";
+import { makeSSRClient } from "./supa-client";
 
 export const links: Route.LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -49,24 +49,33 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function App() {
+export const loader = async ({ request }: Route.LoaderArgs) => {
+  const { client } = makeSSRClient(request);
+  const {
+    data: { user },
+  } = await client.auth.getUser();
+  return { user };
+};
+
+export default function App({ loaderData }: Route.ComponentProps) {
   const { pathname } = useLocation();
   const isAuth = pathname.includes("/auth");
   const navigation = useNavigation();
   const isLoading = navigation.state === "loading";
+  const isLoggedIn = loaderData.user !== null;
 
   return (
     <div
       className={cn([
         {
           "py-15 px-5 lg:py-28 lg:px-20": !isAuth,
-          // "transition-opacity animate-pulse": isLoading,
+          "transition-opacity animate-pulse": isLoading,
         },
       ])}
     >
       {!isAuth && (
         <Navigation
-          isLoggedIn={true}
+          isLoggedIn={isLoggedIn}
           hasNotifications={true}
           hasMessages={true}
         />
